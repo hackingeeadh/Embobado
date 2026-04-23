@@ -1,33 +1,21 @@
+
 <?php
 session_start();
-include "db.php";
 
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// buscar usuario
-$sql = "SELECT * FROM users WHERE email = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
+$users = file("users.txt");
 
-$result = $stmt->get_result();
+foreach ($users as $user) {
+    list($name, $savedEmail, $savedPass) = explode("|", trim($user));
 
-if ($result->num_rows > 0) {
-    $user = $result->fetch_assoc();
-
-    // verificar contraseña encriptada
-    if (password_verify($password, $user['password'])) {
-
-        // guardar sesión
-        $_SESSION['user'] = $user['email'];
-
+    if ($email === $savedEmail && password_verify($password, $savedPass)) {
+        $_SESSION['user'] = $email;
         header("Location: dashboard.php");
-    } else {
-        echo "Contraseña incorrecta";
+        exit();
     }
-
-} else {
-    echo "Usuario no encontrado";
 }
+
+echo "Datos incorrectos";
 ?>
