@@ -1,100 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro</title>
+<meta charset="UTF-8">
+<title>Auth</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+<style>
+body {
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0f0f0f;
+  font-family:Arial;
+  color:white;
+}
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-    }
+.box {
+  background:#181818;
+  padding:30px;
+  border-radius:15px;
+  width:320px;
+  text-align:center;
+}
 
-    .card {
-      background: #181818;
-      padding: 30px;
-      border-radius: 15px;
-      width: 320px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.6);
-      text-align: center;
-    }
+input {
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:8px;
+  background:#222;
+  color:white;
+}
 
-    h2 {
-      margin-bottom: 20px;
-    }
+button {
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#5865F2;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 8px;
-      background: #222;
-      color: white;
-      outline: none;
-      transition: 0.2s;
-    }
+.toggle {
+  margin-top:10px;
+  font-size:12px;
+  color:#aaa;
+  cursor:pointer;
+}
+</style>
 
-    input:focus {
-      background: #2a2a2a;
-    }
+<script>
+function toggleForm(){
+  document.getElementById("login").style.display =
+    document.getElementById("login").style.display === "none" ? "block" : "none";
 
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #4CAF50;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    button:hover {
-      background: #45a049;
-      transform: scale(1.02);
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #4CAF50;
-    }
-
-    .subtitle {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 15px;
-    }
-  </style>
+  document.getElementById("register").style.display =
+    document.getElementById("register").style.display === "none" ? "block" : "none";
+}
+</script>
 </head>
 
 <body>
 
-<div class="card">
-  <div class="logo">Mi Web</div>
-  <div class="subtitle">Crear cuenta</div>
+<div class="box">
 
-  <form action="register.php" method="POST">
-    <input type="text" name="name" placeholder="Nombre (opcional)">
-    <input type="email" name="email" placeholder="Gmail" required>
-    <input type="password" name="password" placeholder="Contraseña" required>
+<!-- LOGIN -->
+<form id="login" action="login.php" method="POST">
+  <h2>Iniciar sesión</h2>
+  <input type="email" name="email" placeholder="Correo" required>
+  <input type="password" name="password" placeholder="Contraseña" required>
+  <button>Entrar</button>
+</form>
 
-    <button type="submit">Registrarse</button>
-  </form>
+<!-- REGISTER -->
+<form id="register" action="register.php" method="POST" style="display:none;">
+  <h2>Crear cuenta</h2>
+  <input type="text" name="name" placeholder="Nombre">
+  <input type="email" name="email" placeholder="Correo" required>
+  <input type="password" name="password" placeholder="Contraseña" required>
+  <button>Registrarse</button>
+</form>
+
+<div class="toggle" onclick="toggleForm()">
+  Cambiar Login / Registro
+</div>
+
 </div>
 
 </body>
+</html>
