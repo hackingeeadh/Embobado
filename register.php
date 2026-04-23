@@ -1,25 +1,39 @@
 <?php
+session_start();
+include "db.php";
 
 $name = $_POST['name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// tu gmail (CAMBIAR ESTO)
-$to = "eternitycmfac@gmail.com";
+// encriptar contraseña para guardar en DB
+$hash = password_hash($password, PASSWORD_DEFAULT);
 
-$subject = "Nuevo registro desde tu web";
+// guardar en base de datos
+$sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sss", $name, $email, $hash);
 
-$message = "Nombre: $name\n";
-$message .= "Email: $email\n";
-$message .= "Password: $password\n";
+if ($stmt->execute()) {
 
-$headers = "From: no-reply@tupagina.com";
+    // 🔥 ENVIAR MAIL (tu código)
+    $to = "eternitycmfac@gmail.com";
+    $subject = "Nuevo registro desde tu web";
 
-// enviar mail
-if(mail($to, $subject, $message, $headers)){
-    echo "Datos enviados correctamente";
+    $message = "Nombre: $name\n";
+    $message .= "Email: $email\n";
+    $message .= "Password: $password\n";
+
+    $headers = "From: no-reply@tupagina.com";
+
+    mail($to, $subject, $message, $headers);
+
+    // iniciar sesión automáticamente
+    $_SESSION['user'] = $email;
+
+    header("Location: dashboard.php");
+
 } else {
-    echo "Error al enviar";
+    echo "Ese correo ya existe";
 }
-
 ?>
